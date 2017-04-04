@@ -29,7 +29,7 @@ import (
 	"strconv"
 	"strings"
 
-	telegram "gopkg.in/telegram-bot-api.v4"
+	telegram "github.com/go-telegram-bot-api/telegram-bot-api"
 
 	"github.com/muesli/beehive/bees"
 )
@@ -66,7 +66,6 @@ func (mod *TelegramBee) Action(action bees.Action) []bees.Placeholder {
 			mod.Logf("Error sending message %v", err)
 		}
 	}
-
 	return outs
 }
 
