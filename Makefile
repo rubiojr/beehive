@@ -14,6 +14,9 @@ go-bindata:
 embed: submodule go-bindata generate build
 
 build:
+	go build --ldflags '-s -w'
+
+debug: submodule go-bindata generate
 	go build
 
 get-deps:
@@ -21,4 +24,4 @@ get-deps:
 
 clean:
 	rm -f beehive
-.PHONY: clean embed go-bindata get-deps noembed generate submodule build all
+.PHONY: clean embed go-bindata get-deps noembed generate submodule build all debug
