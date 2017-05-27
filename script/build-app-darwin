@@ -32,6 +32,12 @@ cp $RES_PATH/launchagent.plist $LA_PLIST
 sed -i '' s/@@user@@/$USER/ $LA_PLIST
 sed -i '' s,@@bin_path@@,$BASE_PATH/beehived, $LA_PLIST
 launchctl load $LA_PLIST
+# Wait a bit for beehived to be ready
+for i in $(seq 20); do
+  s=$(curl -s -o /dev/null -w "%{http_code}" localhost:8181)
+  [ "$s" = 200 ] && break
+  sleep 0.1
+done
 $BASE_PATH/Beehive.bin
 EOF
 chmod +x build/app/Beehive-$OS_NAME-$OS_ARCH/Beehive.app/Contents/MacOS/Beehive
