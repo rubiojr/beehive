@@ -16,22 +16,23 @@
  *
  *    Authors:
  *      Christian Muehlhaeuser <muesli@gmail.com>
+ *      Nicolas Martin <penguwingit@gmail.com>
  */
 
-package emailbee
+package cleverbotbee
 
 import (
 	"github.com/muesli/beehive/bees"
 )
 
-// EmailBeeFactory is a factory for EmailBees.
-type EmailBeeFactory struct {
+// CleverbotBeeFactory is a factory for CleverbotBees.
+type CleverbotBeeFactory struct {
 	bees.BeeFactory
 }
 
 // New returns a new Bee instance configured with the supplied options.
-func (factory *EmailBeeFactory) New(name, description string, options bees.BeeOptions) bees.BeeInterface {
-	bee := EmailBee{
+func (factory *CleverbotBeeFactory) New(name, description string, options bees.BeeOptions) bees.BeeInterface {
+	bee := CleverbotBee{
 		Bee: bees.NewBee(name, factory.ID(), description, options),
 	}
 	bee.ReloadOptions(options)
@@ -40,95 +41,87 @@ func (factory *EmailBeeFactory) New(name, description string, options bees.BeeOp
 }
 
 // ID returns the ID of this Bee.
-func (factory *EmailBeeFactory) ID() string {
-	return "emailbee"
+func (factory *CleverbotBeeFactory) ID() string {
+	return "cleverbotbee"
 }
 
 // Name returns the name of this Bee.
-func (factory *EmailBeeFactory) Name() string {
-	return "Email"
+func (factory *CleverbotBeeFactory) Name() string {
+	return "Cleverbot"
 }
 
 // Description returns the description of this Bee.
-func (factory *EmailBeeFactory) Description() string {
-	return "Lets you send emails"
+func (factory *CleverbotBeeFactory) Description() string {
+	return "Chat with cleverbot"
 }
 
 // Image returns the filename of an image for this Bee.
-func (factory *EmailBeeFactory) Image() string {
+func (factory *CleverbotBeeFactory) Image() string {
 	return factory.ID() + ".png"
 }
 
 // LogoColor returns the preferred logo background color (used by the admin interface).
-func (factory *EmailBeeFactory) LogoColor() string {
-	return "#00bbff"
+func (factory *CleverbotBeeFactory) LogoColor() string {
+	return "#448CCB"
 }
 
 // Options returns the options available to configure this Bee.
-func (factory *EmailBeeFactory) Options() []bees.BeeOptionDescriptor {
+func (factory *CleverbotBeeFactory) Options() []bees.BeeOptionDescriptor {
 	opts := []bees.BeeOptionDescriptor{
 		{
-			Name:        "username",
-			Description: "Username used for SMTP auth",
+			Name:        "api_user",
+			Description: "Your cleverbot api username",
 			Type:        "string",
 			Mandatory:   true,
 		},
 		{
-			Name:        "password",
-			Description: "Password used for SMTP auth",
-			Type:        "password",
+			Name:        "api_key",
+			Description: "Your cleverbot api key",
+			Type:        "string",
 			Mandatory:   true,
 		},
 		{
-			Name:        "address",
-			Description: "Address of SMTP server, eg: smtp.myserver.com:587",
-			Type:        "address",
-			Mandatory:   true,
+			Name:        "session_nick",
+			Description: "Optionally set a nickname for the session",
+			Type:        "string",
+			Mandatory:   false,
 		},
 	}
 	return opts
 }
 
 // Events describes the available events provided by this Bee.
-func (factory *EmailBeeFactory) Events() []bees.EventDescriptor {
-	events := []bees.EventDescriptor{}
+func (factory *CleverbotBeeFactory) Events() []bees.EventDescriptor {
+	events := []bees.EventDescriptor{
+		{
+			Namespace:   factory.Name(),
+			Name:        "answer",
+			Description: "is triggerd when you receive a message/answer from cleverbot",
+			Options: []bees.PlaceholderDescriptor{
+				{
+					Name:        "answer",
+					Description: "cleverbots message",
+					Type:        "string",
+				},
+			},
+		},
+	}
 	return events
 }
 
 // Actions describes the available actions provided by this Bee.
-func (factory *EmailBeeFactory) Actions() []bees.ActionDescriptor {
+func (factory *CleverbotBeeFactory) Actions() []bees.ActionDescriptor {
 	actions := []bees.ActionDescriptor{
 		{
 			Namespace:   factory.Name(),
-			Name:        "send",
-			Description: "Sends an email",
+			Name:        "send_message",
+			Description: "Send a message to the cleverbot",
 			Options: []bees.PlaceholderDescriptor{
 				{
-					Name:        "sender",
-					Description: "email address of the sender",
-					Type:        "string",
-				},
-				{
-					Name:        "recipient",
-					Description: "email address of the recipient",
-					Type:        "string",
-					Mandatory:   true,
-				},
-				{
-					Name:        "subject",
-					Description: "Subject of the email",
-					Type:        "string",
-				},
-				{
 					Name:        "text",
-					Description: "Content of the email using plain text",
+					Description: "Contents of the message/question",
 					Type:        "string",
 					Mandatory:   true,
-				},
-				{
-					Name:        "html",
-					Description: "Content of the email using HTML",
-					Type:        "string",
 				},
 			},
 		},
@@ -137,6 +130,6 @@ func (factory *EmailBeeFactory) Actions() []bees.ActionDescriptor {
 }
 
 func init() {
-	f := EmailBeeFactory{}
+	f := CleverbotBeeFactory{}
 	bees.RegisterFactory(&f)
 }

@@ -23,6 +23,7 @@ package main
 import (
 	_ "github.com/muesli/beehive/bees/alertoverbee"
 	_ "github.com/muesli/beehive/bees/anelpowerctrlbee"
+	_ "github.com/muesli/beehive/bees/cleverbotbee"
 	_ "github.com/muesli/beehive/bees/cricketbee"
 	_ "github.com/muesli/beehive/bees/cronbee"
 	_ "github.com/muesli/beehive/bees/devrantbee"
@@ -33,6 +34,7 @@ import (
 	_ "github.com/muesli/beehive/bees/fsnotifybee"
 	_ "github.com/muesli/beehive/bees/githubbee"
 	_ "github.com/muesli/beehive/bees/gitterbee"
+	_ "github.com/muesli/beehive/bees/horizonboxbee"
 	_ "github.com/muesli/beehive/bees/htmlextractbee"
 	_ "github.com/muesli/beehive/bees/httpbee"
 	_ "github.com/muesli/beehive/bees/huebee"
@@ -51,6 +53,7 @@ import (
 	_ "github.com/muesli/beehive/bees/spaceapibee"
 	_ "github.com/muesli/beehive/bees/telegrambee"
 	_ "github.com/muesli/beehive/bees/timebee"
+	_ "github.com/muesli/beehive/bees/tinderbee"
 	_ "github.com/muesli/beehive/bees/transmissionbee"
 	_ "github.com/muesli/beehive/bees/tumblrbee"
 	_ "github.com/muesli/beehive/bees/twiliobee"

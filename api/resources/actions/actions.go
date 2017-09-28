@@ -48,3 +48,20 @@ func (r *ActionResource) Register(container *restful.Container, config smolder.A
 
 	r.Init(container, r)
 }
+
+// Reads returns the model that will be read by POST, PUT & PATCH operations
+func (r *ActionResource) Reads() interface{} {
+	return &ActionPostStruct{}
+}
+
+// Returns returns the model that will be returned
+func (r *ActionResource) Returns() interface{} {
+	return ActionResponse{}
+}
+
+// Validate checks an incoming request for data errors
+func (r *ActionResource) Validate(context smolder.APIContext, data interface{}, request *restful.Request) error {
+	//	ps := data.(*ActionPostStruct)
+	// FIXME
+	return nil
+}
