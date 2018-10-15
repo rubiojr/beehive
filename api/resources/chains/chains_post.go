@@ -23,6 +23,7 @@ package chains
 import (
 	"github.com/emicklei/go-restful"
 	"github.com/muesli/beehive/bees"
+	"github.com/muesli/beehive/cfg"
 	"github.com/muesli/smolder"
 )
 
@@ -77,6 +78,8 @@ func (r *ChainResource) Post(context smolder.APIContext, data interface{}, reque
 	}
 	chains := append(bees.GetChains(), chain)
 	bees.SetChains(chains)
+
+	cfg.SaveCurrentConfig()
 
 	resp.AddChain(chain)
 	resp.Send(response)

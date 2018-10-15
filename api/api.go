@@ -41,6 +41,7 @@ import (
 	"github.com/muesli/beehive/api/resources/actions"
 	"github.com/muesli/beehive/api/resources/bees"
 	"github.com/muesli/beehive/api/resources/chains"
+	"github.com/muesli/beehive/api/resources/config"
 	"github.com/muesli/beehive/api/resources/hives"
 	"github.com/muesli/beehive/app"
 )
@@ -191,6 +192,7 @@ func Run() {
 		&bees.BeeResource{},
 		&chains.ChainResource{},
 		&actions.ActionResource{},
+		&config.ConfigResource{},
 	)
 
 	server := &http.Server{Addr: bind, Handler: wsContainer}
