@@ -119,10 +119,6 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/mnzt/tinder"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/muesli/go.hue"
 
 [[constraint]]
@@ -135,7 +131,7 @@
 
 [[constraint]]
   name = "github.com/nlopes/slack"
-  version = "0.2.0"
+  version = "0.5.0"
 
 [[constraint]]
   branch = "master"
