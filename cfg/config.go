@@ -1,11 +1,14 @@
 package cfg
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"os"
 
 	"github.com/muesli/beehive/bees"
+	"github.com/rubiojr/fcrypto"
+	log "github.com/sirupsen/logrus"
 )
 
 // Config contains an entire configuration set for Beehive
@@ -19,7 +22,20 @@ type Config struct {
 func LoadConfig(file string) (Config, error) {
 	var config Config
 
-	j, err := ioutil.ReadFile(file)
+	var j []byte
+	var err error
+	var buf *bytes.Buffer
+	secret := os.Getenv("BEEHIVE_CONFIG_SECRET")
+	if secret != "" {
+		log.Println("Loading encrypted config file")
+		buf, err = fcrypto.LoadFile(file, secret)
+		if err == nil {
+			j = buf.Bytes()
+		}
+	} else {
+		j, err = ioutil.ReadFile(file)
+	}
+
 	if err != nil {
 		return config, err
 	}
@@ -35,9 +51,15 @@ func LoadConfig(file string) (Config, error) {
 
 // Saves chains to config
 func SaveConfig(file string, c Config) error {
+	secret := os.Getenv("BEEHIVE_CONFIG_SECRET")
 	j, err := json.MarshalIndent(c, "", "  ")
 	if err == nil {
-		err = ioutil.WriteFile(file, j, 0644)
+		if secret != "" {
+			log.Println("Saving encrypted config file")
+			fcrypto.SaveFile(bytes.NewBuffer(j), file, secret)
+		} else {
+			err = ioutil.WriteFile(file, j, 0644)
+		}
 	}
 
 	return err
