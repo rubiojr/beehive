@@ -50,10 +50,11 @@ func (mod *WatchdogBee) Run(eventChan chan bees.Event) {
 		case <-mod.SigChan:
 			return
 		case <-time.After(time.Duration(interval) * time.Second):
-			_, err = http.Get(api.CanonicalURL().String())
+			resp, err := http.Get(api.CanonicalURL().String())
 			if err == nil {
 				mod.LogDebugf("Notify Systemd's watchdog")
 				daemon.SdNotify(false, "WATCHDOG=1")
+				resp.Body.Close()
 			}
 		}
 	}
